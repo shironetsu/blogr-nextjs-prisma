@@ -18,6 +18,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     },
   });
+  if(post === null){
+    return {
+      notFound: true,
+    }
+  }
   return {
     props: post,
   };
@@ -37,7 +42,7 @@ async function deletePost(id: string): Promise<void> {
   Router.push("/");
 }
 
-const Post: React.FC<PostProps> = (props) => {
+const Post = (props: PostProps) => {
   const {data: session, status} = useSession();
   if (status === "loading") {
     return <div>Authenticating ...</div>;
