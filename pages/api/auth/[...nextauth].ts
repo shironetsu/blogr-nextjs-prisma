@@ -5,10 +5,10 @@ import GitHubProvider from 'next-auth/providers/github'
 import prisma from '../../../lib/prisma';
 import env from '../../../env'
 
-const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
+const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, authOptions);
 export default authHandler;
 
-const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GitHubProvider({
       clientId: env.GITHUB_ID,
