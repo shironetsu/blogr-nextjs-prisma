@@ -2,10 +2,11 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import ReactMarkdown from "react-markdown";
 import Layout from "../../components/Layout";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { PostProps } from "../../components/Post";
 import { useSession } from "next-auth/react";
 import prisma from "../../utils/prisma";
+import { trpc } from "../../utils/trpc";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -18,35 +19,55 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     },
   });
-  if(post === null){
+  if (post === null) {
     return {
       notFound: true,
-    }
+    };
   }
   return {
     props: post,
   };
 };
 
-async function publishPost(id: string): Promise<void> {
-  await fetch(`/api/publish/${id}`, {
-    method: "PUT",
-  });
-  await Router.push("/");
-}
+const usePublishPost = () => {
+  const mutation = trpc.publish.useMutation();
+  const router = useRouter();
+  return (id: string) => {
+    mutation
+      .mutateAsync({ id })
+      .then(() => {
+        router.push("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
 
-async function deletePost(id: string): Promise<void> {
-  await fetch(`/api/post/${id}`, {
-    method: "DELETE",
-  });
-  Router.push("/");
-}
+const useDeletePost = () => {
+  const mutation = trpc.postDelete.useMutation();
+  const router = useRouter();
+  return (id: string) => {
+    mutation
+      .mutateAsync({ id })
+      .then(() => {
+        router.push("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
 
 const Post = (props: PostProps) => {
-  const {data: session, status} = useSession();
+  const { data: session, status } = useSession();
   if (status === "loading") {
     return <div>Authenticating ...</div>;
   }
+
+  const publishPost = usePublishPost();
+  const deletePost = useDeletePost();
+
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === props.author?.email;
   let title = props.title;

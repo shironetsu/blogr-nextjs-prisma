@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout";
 import Router from "next/router";
+import { trpc } from "../utils/trpc";
 
 const Draft: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
+  const mutation = trpc.postCreate.useMutation();
+
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { title, content };
-      await fetch("/api/post", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+      mutation.mutateAsync({ title, content }).then(() => {
+        Router.push("/drafts");
       });
-      await Router.push("/drafts");
     } catch (error) {
       console.error(error);
     }
