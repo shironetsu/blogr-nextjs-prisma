@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import prisma from "../../../lib/prisma";
+import prisma from "../../../utils/prisma";
 import { z } from 'zod'
 
 const querySchema = z.object({

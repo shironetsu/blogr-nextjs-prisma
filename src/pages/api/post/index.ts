@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next";
-import prisma from "../../../lib/prisma";
+import prisma from "../../../utils/prisma";
 import type { NextApiHandler } from "next";
 import { z } from 'zod'
 import { authOptions } from "../auth/[...nextauth]";
