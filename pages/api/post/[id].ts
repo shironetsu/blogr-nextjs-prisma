@@ -1,8 +1,14 @@
+import type { NextApiHandler } from "next";
 import prisma from "../../../lib/prisma";
+import { z } from 'zod'
+
+const querySchema = z.object({
+  id: z.string().min(1)
+})
 
 // DELETE /api/post/:id
-export default async function handle(req, res) {
-  const postId = req.query.id;
+const handler: NextApiHandler = async (req, res) => {
+  const { id: postId } = querySchema.parse(req.query)
   if (req.method === "DELETE") {
     const post = await prisma.post.delete({
       where: { id: postId },
@@ -14,3 +20,5 @@ export default async function handle(req, res) {
     );
   }
 }
+
+export default handler
