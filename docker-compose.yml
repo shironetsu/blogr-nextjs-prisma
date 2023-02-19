@@ -1,0 +1,40 @@
+# https://hub.docker.com/_/postgres
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: blog
+      #POSTGRES_USER: user
+      # > Be aware that if this parameter is specified, 
+      # PostgreSQL will still show The files belonging to this database system will be 
+      # owned by user "postgres" during initialization. 
+      # 単に帰るとうまくいかない:
+      # Error: P1000: Authentication failed against database server at `localhost`, 
+      # the provided database credentials for `user` are not valid.
+    volumes:
+      - ./database/data:/var/lib/postgresql/data #Default value of `PGDATA`
+      # docker-composeでPostgreSQL作成時の注意 - Qiita https://qiita.com/mm_sys/items/996991d19b0d6e5c0715
+    ports:
+      # 明示的に指定しないとホスト側に開かれるポートが5432にならない。
+      # Error: P1001: Can't reach database server at `localhost`:`5432`
+      - '5432:5432'
+
+    # タイムアウトの問題が発生するという事例もある。
+    # node.js - M1 Related! - Prisma: Can't reach database server at `database`:`5432` - Stack Overflow 
+    # https://stackoverflow.com/questions/68476229/m1-related-prisma-cant-reach-database-server-at-database5432
+
+    # これは関係なかった：
+    # Can't reach database server at `postgres`:`5432` · Discussion #14187 · prisma/prisma 
+    # https://github.com/prisma/prisma/discussions/14187
+
+  # Prisma Studio を使うのでadminerは不要。
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
