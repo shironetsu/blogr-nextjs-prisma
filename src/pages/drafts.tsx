@@ -1,13 +1,12 @@
-import React from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Layout from "../components/Layout";
-import Post, { PostProps } from "../components/Post";
+import Post from "../components/Post";
 import { useSession } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import prisma from "../utils/prisma";
 import { authOptions } from "./api/auth/[...nextauth]";
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext) => {
   const session = await getServerSession(req, res, authOptions);
   if (!session || !session?.user?.email) {
     res.statusCode = 403;
@@ -30,11 +29,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   };
 };
 
-type Props = {
-  drafts: PostProps[];
-};
-
-const Drafts: React.FC<Props> = (props) => {
+const Drafts = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const {data: session} = useSession();
 
   if (!session) {

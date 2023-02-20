@@ -1,29 +1,38 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "../components/Layout";
-import Router from "next/router";
+import  { useRouter } from "next/router";
 import { trpc } from "../utils/trpc";
 
-const Draft: React.FC = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
+const useSubmitData = () => {
   const mutation = trpc.postCreate.useMutation();
-
-  const submitData = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
+  const router = useRouter();
+  return async ({ title, content }: { title: string; content: string }) => {
     try {
       mutation.mutateAsync({ title, content }).then(() => {
-        Router.push("/drafts");
+        router.push("/drafts");
       });
     } catch (error) {
       console.error(error);
     }
   };
+};
+
+const Draft = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const submitData = useSubmitData();
+  const router = useRouter();
 
   return (
     <Layout>
       <div>
-        <form onSubmit={submitData}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submitData({ title, content });
+          }}
+        >
           <h1>New Draft</h1>
           <input
             autoFocus
@@ -40,7 +49,7 @@ const Draft: React.FC = () => {
             value={content}
           />
           <input disabled={!content || !title} type="submit" value="Create" />
-          <a className="back" href="#" onClick={() => Router.push("/")}>
+          <a className="back" href="#" onClick={() => router.push("/")}>
             or Cancel
           </a>
         </form>

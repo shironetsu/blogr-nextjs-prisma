@@ -1,14 +1,14 @@
-import React from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import ReactMarkdown from "react-markdown";
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
-import { PostProps } from "../../components/Post";
 import { useSession } from "next-auth/react";
 import prisma from "../../utils/prisma";
 import { trpc } from "../../utils/trpc";
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps = async ({
+  params,
+}: GetServerSidePropsContext) => {
   const post = await prisma.post.findUnique({
     where: {
       id: String(params?.id),
@@ -59,7 +59,9 @@ const useDeletePost = () => {
   };
 };
 
-const Post = (props: PostProps) => {
+const Post = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
   const { data: session, status } = useSession();
   if (status === "loading") {
     return <div>Authenticating ...</div>;
@@ -80,7 +82,7 @@ const Post = (props: PostProps) => {
       <div>
         <h2>{title}</h2>
         <p>By {props?.author?.name || "Unknown author"}</p>
-        <ReactMarkdown children={props.content} />
+        <ReactMarkdown children={props.content ?? ""} />
         {!props.published && userHasValidSession && postBelongsToUser && (
           <button onClick={() => publishPost(props.id)}>Publish</button>
         )}
