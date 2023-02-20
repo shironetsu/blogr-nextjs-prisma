@@ -63,12 +63,12 @@ const Post = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { data: session, status } = useSession();
+  const publishPost = usePublishPost();
+  const deletePost = useDeletePost();
+
   if (status === "loading") {
     return <div>Authenticating ...</div>;
   }
-
-  const publishPost = usePublishPost();
-  const deletePost = useDeletePost();
 
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === props.author?.email;
@@ -82,7 +82,7 @@ const Post = (
       <div>
         <h2>{title}</h2>
         <p>By {props?.author?.name || "Unknown author"}</p>
-        <ReactMarkdown children={props.content ?? ""} />
+        <ReactMarkdown>{props.content ?? ""}</ReactMarkdown>
         {!props.published && userHasValidSession && postBelongsToUser && (
           <button onClick={() => publishPost(props.id)}>Publish</button>
         )}

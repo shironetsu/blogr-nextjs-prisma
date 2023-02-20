@@ -6,7 +6,10 @@ import { getServerSession } from "next-auth/next";
 import prisma from "../utils/prisma";
 import { authOptions } from "./api/auth/[...nextauth]";
 
-export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({
+  req,
+  res,
+}: GetServerSidePropsContext) => {
   const session = await getServerSession(req, res, authOptions);
   if (!session || !session?.user?.email) {
     res.statusCode = 403;
@@ -29,8 +32,10 @@ export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext
   };
 };
 
-const Drafts = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const {data: session} = useSession();
+const Drafts = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
+  const { data: session } = useSession();
 
   if (!session) {
     return (

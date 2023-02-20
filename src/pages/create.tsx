@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
-import  { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { trpc } from "../utils/trpc";
 
 const useSubmitData = () => {

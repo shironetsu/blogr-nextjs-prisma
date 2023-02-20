@@ -1,5 +1,5 @@
-import { TRPCError, initTRPC } from '@trpc/server';
-import { Context } from './context';
+import { TRPCError, initTRPC } from "@trpc/server";
+import { Context } from "./context";
 
 // Avoid exporting the entire t-object
 // since it's not very descriptive.
@@ -8,27 +8,27 @@ import { Context } from './context';
 const t = initTRPC.context<Context>().create();
 
 const isAuthed = t.middleware(({ next, ctx }) => {
-    if (!ctx.session?.user?.email) {
-        throw new TRPCError({
-            code: 'UNAUTHORIZED'
-        });
-    }
-    const s = ctx.session.user.email;
-    return next({
-        //これもう少し何とかならんか？
-        //こうしないと深いところにある `email` が `string` と型推論されない。
-        ctx: {
-            session: {
-                ...ctx.session,
-                user: {
-                    ...ctx.session.user,
-                    // Infers the `session.user.email` as non-nullable
-                    email: ctx.session.user.email
-                }
-            },
-        }
-    })
-})
+  if (!ctx.session?.user?.email) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+    });
+  }
+  const s = ctx.session.user.email;
+  return next({
+    //これもう少し何とかならんか？
+    //こうしないと深いところにある `email` が `string` と型推論されない。
+    ctx: {
+      session: {
+        ...ctx.session,
+        user: {
+          ...ctx.session.user,
+          // Infers the `session.user.email` as non-nullable
+          email: ctx.session.user.email,
+        },
+      },
+    },
+  });
+});
 
 export const middleware = t.middleware;
 // Base router and procedure helpers

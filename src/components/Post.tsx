@@ -3,14 +3,14 @@ import ReactMarkdown from "react-markdown";
 import { Prisma } from "@prisma/client";
 
 type Props = {
-  post :Prisma.PostGetPayload<{
+  post: Prisma.PostGetPayload<{
     include: {
       author: {
-        select: { name: true },
-      },
-    }
-  }>
-}
+        select: { name: true };
+      };
+    };
+  }>;
+};
 
 const Post = ({ post }: Props) => {
   const authorName = post.author ? post.author.name : "Unknown author";
@@ -18,7 +18,7 @@ const Post = ({ post }: Props) => {
     <div onClick={() => Router.push("/p/[id]", `/p/${post.id}`)}>
       <h2>{post.title}</h2>
       <small>By {authorName}</small>
-      <ReactMarkdown children={post.content ?? ''} />
+      <ReactMarkdown>{post.content ?? ""}</ReactMarkdown>
       <style jsx>{`
         div {
           color: inherit;

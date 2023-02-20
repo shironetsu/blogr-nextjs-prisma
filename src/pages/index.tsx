@@ -1,6 +1,6 @@
-import type { InferGetStaticPropsType } from "next"
-import Layout from "../components/Layout"
-import Post from "../components/Post"
+import type { InferGetStaticPropsType } from "next";
+import Layout from "../components/Layout";
+import Post from "../components/Post";
 import prisma from "../utils/prisma";
 
 export const getStaticProps = async () => {
@@ -11,12 +11,12 @@ export const getStaticProps = async () => {
         select: { name: true },
       },
     },
-  })
+  });
   return {
     props: { feed },
     revalidate: 10,
-  }
-}
+  };
+};
 
 const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -46,7 +46,7 @@ const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         }
       `}</style>
     </Layout>
-  )
-}
+  );
+};
 
-export default Blog
+export default Blog;
