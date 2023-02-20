@@ -1,7 +1,8 @@
 import type { inferAsyncReturnType } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../pages/api/auth/[...nextauth]";
+
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 /**
  * Creates context for an incoming request

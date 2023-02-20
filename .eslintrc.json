@@ -13,11 +13,35 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "no-restricted-imports": ["warn", { 
-      "patterns": [{
-        "group": ["./*", "../*"],
-        "message": "Use @/* instead." 
-      }]
-    }]
+    "no-multiple-empty-lines": "warn",
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": ["./*", "../*"],
+            "message": "Use @/* instead."
+          }
+        ]
+      }
+    ],
+    "sort-imports": [
+      "warn",
+      {
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "import/order": [
+      "warn",
+      {
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "import/internal-regex": "^@/"
   }
 }

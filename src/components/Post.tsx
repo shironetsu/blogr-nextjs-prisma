@@ -1,6 +1,6 @@
+import { Prisma } from "@prisma/client";
 import Router from "next/router";
 import ReactMarkdown from "react-markdown";
-import { Prisma } from "@prisma/client";
 
 type Props = {
   post: Prisma.PostGetPayload<{

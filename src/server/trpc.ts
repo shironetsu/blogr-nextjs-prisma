@@ -1,5 +1,6 @@
 import { TRPCError, initTRPC } from "@trpc/server";
-import { Context } from "./context";
+
+import { Context } from "@/server/context";
 
 // Avoid exporting the entire t-object
 // since it's not very descriptive.
@@ -13,7 +14,7 @@ const isAuthed = t.middleware(({ next, ctx }) => {
       code: "UNAUTHORIZED",
     });
   }
-  const s = ctx.session.user.email;
+
   return next({
     //これもう少し何とかならんか？
     //こうしないと深いところにある `email` が `string` と型推論されない。

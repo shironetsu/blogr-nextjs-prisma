@@ -1,7 +1,8 @@
 import { TRPCError } from "@trpc/server";
-import prisma from "../../utils/prisma";
-import { protectedProcedure, router } from "../trpc";
 import { z } from "zod";
+
+import { protectedProcedure, router } from "@/server/trpc";
+import prisma from "@/utils/prisma";
 
 export const postRouter = router({
   postCreate: protectedProcedure

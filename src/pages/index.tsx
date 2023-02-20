@@ -1,7 +1,8 @@
 import type { InferGetStaticPropsType } from "next";
-import Layout from "../components/Layout";
-import Post from "../components/Post";
-import prisma from "../utils/prisma";
+
+import Layout from "@/components/Layout";
+import Post from "@/components/Post";
+import prisma from "@/utils/prisma";
 
 export const getStaticProps = async () => {
   const feed = await prisma.post.findMany({

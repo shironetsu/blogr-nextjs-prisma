@@ -1,7 +1,8 @@
-import { useState } from "react";
-import Layout from "../components/Layout";
 import { useRouter } from "next/router";
-import { trpc } from "../utils/trpc";
+import { useState } from "react";
+
+import Layout from "@/components/Layout";
+import { trpc } from "@/utils/trpc";
 
 const useSubmitData = () => {
   const mutation = trpc.postCreate.useMutation();

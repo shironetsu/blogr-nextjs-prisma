@@ -1,6 +1,7 @@
-import prisma from "../../utils/prisma";
-import { protectedProcedure, router } from "../trpc";
 import { z } from "zod";
+
+import { protectedProcedure, router } from "@/server/trpc";
+import prisma from "@/utils/prisma";
 
 export const publishRouter = router({
   publish: protectedProcedure

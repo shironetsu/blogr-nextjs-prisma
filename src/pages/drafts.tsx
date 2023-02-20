@@ -1,10 +1,11 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import Layout from "../components/Layout";
-import Post from "../components/Post";
-import { useSession } from "next-auth/react";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getServerSession } from "next-auth/next";
-import prisma from "../utils/prisma";
-import { authOptions } from "./api/auth/[...nextauth]";
+import { useSession } from "next-auth/react";
+
+import Layout from "@/components/Layout";
+import Post from "@/components/Post";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import prisma from "@/utils/prisma";
 
 export const getServerSideProps = async ({
   req,

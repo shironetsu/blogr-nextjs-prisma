@@ -1,10 +1,11 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import ReactMarkdown from "react-markdown";
-import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import prisma from "../../utils/prisma";
-import { trpc } from "../../utils/trpc";
+import ReactMarkdown from "react-markdown";
+
+import Layout from "@/components/Layout";
+import prisma from "@/utils/prisma";
+import { trpc } from "@/utils/trpc";
 
 export const getServerSideProps = async ({
   params,
