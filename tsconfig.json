@@ -15,6 +15,12 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    /*
+      Advanced Features: Absolute Imports and Module Path Aliases | Next.js 
+      https://nextjs.org/docs/advanced-features/module-path-aliases
+
+      `@` だけだと外部パッケージと混同するので `@/` とする。
+    */
     "paths": {
       "@/*": ["./src/*"]
     }
